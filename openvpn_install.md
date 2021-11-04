@@ -41,8 +41,8 @@ sudo apt install automake autoconf libtool m4 liblz4-tool liblz4-dev liblzo2-dev
 ```
 ### 创建```server.conf```
 ```bash
-port 14433
-proto tcp
+port 1194
+proto udp
 dev tun0
 dev-type tun
 user nobody
@@ -73,6 +73,7 @@ client-config-dir /etc/openvpn/ccd
 status /var/log/openvpn/status.log
 verb 3
 duplicate-cn
+explicit-exit-notify 1
 ```
 ### 创建配置中的文件路径
 ```
@@ -129,7 +130,7 @@ iptables -t nat -I POSTROUTING 1 -s 10.10.10.0/24 -o ens3 -j MASQUERADE
 iptables -I INPUT 1 -i tun0 -j ACCEPT
 iptables -I FORWARD 1 -i ens3 -o tun0 -j ACCEPT
 iptables -I FORWARD 1 -i tun0 -o ens3 -j ACCEPT
-iptables -I INPUT 1 -i ens3 -p tcp --dport 14433 -j ACCEPT
+iptables -I INPUT 1 -i ens3 -p udp --dport 1194 -j ACCEPT
 # ens3是当前系统外网网卡名称，如不是自行修改
 ```
 ### 清除防火墙转发规则```/etc/openvpn/rm-openvpn-rules.sh```
@@ -139,7 +140,7 @@ iptables -t nat -D POSTROUTING -s 10.10.10.0/24 -o ens3 -j MASQUERADE
 iptables -D INPUT -i tun0 -j ACCEPT
 iptables -D FORWARD -i ens3 -o tun0 -j ACCEPT
 iptables -D FORWARD -i tun0 -o ens3 -j ACCEPT
-iptables -D INPUT -i ens3 -p tcp --dport 14433 -j ACCEPT
+iptables -D INPUT -i ens3 -p udp --dport 1194 -j ACCEPT
 # ens3是当前系统外网网卡名称，如不是自行修改
 ```
 ### 添加运行权限
