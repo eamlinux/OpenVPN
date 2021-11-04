@@ -4,40 +4,40 @@ sudo apt install automake autoconf libtool m4 liblz4-tool liblz4-dev liblzo2-dev
 ```
 ### 下载```OpenVPN```源码
 ```bash
-# wget https://swupdate.openvpn.org/community/releases/openvpn-2.5.4.tar.gz
-# tar xf openvpn-2.5.4.tar.gz
-# cd openvpn-2.5.4
-# ./configure
-# make
-# mv src/openvpn/openvpn /usr/local/bin/
-# chown root:root /usr/local/bin/openvpn
-# chmod 0755 /usr/local/bin/openvpn
-# setcap CAP_NET_BIND_SERVICE=+eip /usr/local/bin/openvpn
+wget https://swupdate.openvpn.org/community/releases/openvpn-2.5.4.tar.gz
+tar xf openvpn-2.5.4.tar.gz
+cd openvpn-2.5.4
+./configure
+make
+mv src/openvpn/openvpn /usr/local/bin/
+chown root:root /usr/local/bin/openvpn
+chmod 0755 /usr/local/bin/openvpn
+setcap CAP_NET_BIND_SERVICE=+eip /usr/local/bin/openvpn
 ```
 以上在```root```用户下进行，普通用户编译安装时加上```sudo```
 
 ### 安装iptables防火墙
 ```shell
-# apt update
-# apt upgrade
-# apt-get install -y iptables openssl wget ca-certificates curl
+apt update
+apt upgrade
+apt-get install -y iptables openssl wget ca-certificates curl
 ```
 ### 创建证书
 ```shell
-# wget https://github.com/OpenVPN/easy-rsa/releases/download/v3.0.8/EasyRSA-3.0.8.tgz
-# mkdir -p /opt/easy-rsa /etc/openvpn
-# tar zxf ./EasyRSA-3.0.8.tgz --strip-components=1 --directory /opt/easy-rsa
-# cd /opt/easy-rsa
-# echo "set_var EASYRSA_ALGO ec" >vars
-# echo "set_var EASYRSA_CURVE secp521r1" >>vars
-# echo "set_var EASYRSA_REQ_CN cn_server" >>vars
-# ./easyrsa init-pki
-# ./easyrsa --batch build-ca nopass
-# ./easyrsa build-server-full server nopass
-# EASYRSA_CRL_DAYS=3650 ./easyrsa gen-crl
-# openvpn --genkey --secret /etc/openvpn/tls-crypt.key
-# cp pki/ca.crt pki/private/ca.key pki/issued/server.crt pki/private/server.key pki/crl.pem /etc/openvpn
-# chmod 644 /etc/openvpn/crl.pem
+wget https://github.com/OpenVPN/easy-rsa/releases/download/v3.0.8/EasyRSA-3.0.8.tgz
+mkdir -p /opt/easy-rsa /etc/openvpn
+tar zxf ./EasyRSA-3.0.8.tgz --strip-components=1 --directory /opt/easy-rsa
+cd /opt/easy-rsa
+echo "set_var EASYRSA_ALGO ec" >vars
+echo "set_var EASYRSA_CURVE secp521r1" >>vars
+echo "set_var EASYRSA_REQ_CN cn_server" >>vars
+./easyrsa init-pki
+./easyrsa --batch build-ca nopass
+./easyrsa build-server-full server nopass
+EASYRSA_CRL_DAYS=3650 ./easyrsa gen-crl
+openvpn --genkey --secret /etc/openvpn/tls-crypt.key
+cp pki/ca.crt pki/private/ca.key pki/issued/server.crt pki/private/server.key pki/crl.pem /etc/openvpn
+chmod 644 /etc/openvpn/crl.pem
 ```
 ### 创建```server.conf```
 ```bash
