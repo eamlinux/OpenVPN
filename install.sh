@@ -23,9 +23,7 @@ function checkOS() {
 
 		if [[ $ID == "debian" || $ID == "raspbian" ]]; then
 			if [[ $VERSION_ID -lt 9 ]]; then
-				echo "⚠️ 不支持当前debian版本."
-				echo ""
-				echo "请使用debian9或更高版本"
+				echo "⚠️ 注意:请使用debian9或者更高版本系统."
 				echo ""
 				until [[ $CONTINUE =~ (y|n) ]]; do
 					read -rp "是否继续? [y/n]: " -e CONTINUE
@@ -38,9 +36,7 @@ function checkOS() {
 			OS="ubuntu"
 			MAJOR_UBUNTU_VERSION=$(echo "$VERSION_ID" | cut -d '.' -f1)
 			if [[ $MAJOR_UBUNTU_VERSION -lt 16 ]]; then
-				echo "⚠️ 只支持ubuntu 16.04或更高版本."
-				echo ""
-				echo "Beta版存在一定风险."
+				echo "⚠️ 注意:请使用ubuntu 16.04或更高版本."
 				echo ""
 				until [[ $CONTINUE =~ (y|n) ]]; do
 					read -rp "是否继续? [y/n]: " -e CONTINUE
@@ -58,9 +54,7 @@ function checkOS() {
 		if [[ $ID == "centos" || $ID == "rocky" || $ID == "almalinux" ]]; then
 			OS="centos"
 			if [[ ! $VERSION_ID =~ (7|8) ]]; then
-				echo "⚠️ Your version of CentOS is not supported."
-				echo ""
-				echo "The script only support CentOS 7 and CentOS 8."
+				echo "⚠️ 本脚本仅支持CentOS 7 和 CentOS 8."
 				echo ""
 				exit 1
 			fi
@@ -68,18 +62,15 @@ function checkOS() {
 		if [[ $ID == "ol" ]]; then
 			OS="oracle"
 			if [[ ! $VERSION_ID =~ (8) ]]; then
-				echo "Your version of Oracle Linux is not supported."
+				echo "本脚本仅支持Oracle Linux 8."
 				echo ""
-				echo "The script only support Oracle Linux 8."
 				exit 1
 			fi
 		fi
 		if [[ $ID == "amzn" ]]; then
 			OS="amzn"
 			if [[ $VERSION_ID != "2" ]]; then
-				echo "⚠️ Your version of Amazon Linux is not supported."
-				echo ""
-				echo "The script only support Amazon Linux 2."
+				echo "⚠️ 本脚本仅支持Amazon Linux 2."
 				echo ""
 				exit 1
 			fi
@@ -87,18 +78,18 @@ function checkOS() {
 	elif [[ -e /etc/arch-release ]]; then
 		OS=arch
 	else
-		echo "Looks like you aren't running this installer on a Debian, Ubuntu, Fedora, CentOS, Amazon Linux 2, Oracle Linux 8 or Arch Linux system"
+		echo "请在Debian,Ubuntu,Fedora,CentOS,Amazon Linux 2,Oracle Linux 8系统上运行此脚本"
 		exit 1
 	fi
 }
 
 function initialCheck() {
 	if ! isRoot; then
-		echo "Sorry, you need to run this as root"
+		echo "请在root下运行脚本"
 		exit 1
 	fi
 	if ! tunAvailable; then
-		echo "TUN is not available"
+		echo "找不到TUN虚拟网络设备，OpenVZ架构不受支持"
 		exit 1
 	fi
 	checkOS
