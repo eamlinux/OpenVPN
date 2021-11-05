@@ -23,12 +23,12 @@ function checkOS() {
 
 		if [[ $ID == "debian" || $ID == "raspbian" ]]; then
 			if [[ $VERSION_ID -lt 9 ]]; then
-				echo "⚠️ Your version of Debian is not supported."
+				echo "⚠️ 不支持当前debian版本."
 				echo ""
-				echo "However, if you're using Debian >= 9 or unstable/testing then you can continue, at your own risk."
+				echo "请使用debian9或更高版本"
 				echo ""
 				until [[ $CONTINUE =~ (y|n) ]]; do
-					read -rp "Continue? [y/n]: " -e CONTINUE
+					read -rp "是否继续? [y/n]: " -e CONTINUE
 				done
 				if [[ $CONTINUE == "n" ]]; then
 					exit 1
@@ -38,12 +38,12 @@ function checkOS() {
 			OS="ubuntu"
 			MAJOR_UBUNTU_VERSION=$(echo "$VERSION_ID" | cut -d '.' -f1)
 			if [[ $MAJOR_UBUNTU_VERSION -lt 16 ]]; then
-				echo "⚠️ Your version of Ubuntu is not supported."
+				echo "⚠️ 只支持ubuntu 16.04或更高版本."
 				echo ""
-				echo "However, if you're using Ubuntu >= 16.04 or beta, then you can continue, at your own risk."
+				echo "Beta版存在一定风险."
 				echo ""
 				until [[ $CONTINUE =~ (y|n) ]]; do
-					read -rp "Continue? [y/n]: " -e CONTINUE
+					read -rp "是否继续? [y/n]: " -e CONTINUE
 				done
 				if [[ $CONTINUE == "n" ]]; then
 					exit 1
