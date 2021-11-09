@@ -84,7 +84,7 @@ explicit-exit-notify 1
 ```bash
 [Unit]
 Description=OpenVPN connection to %i
-# Before=systemd-user-sessions.service
+Before=systemd-user-sessions.service
 After=network-online.target
 Wants=network-online.target
 Documentation=man:openvpn(8)
