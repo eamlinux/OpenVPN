@@ -72,6 +72,7 @@ tls-ciphersuites TLS_AES_256_GCM_SHA384
 client-config-dir /etc/openvpn/ccd
 status /var/log/openvpn/status.log
 verb 3
+client-to-client
 duplicate-cn
 explicit-exit-notify 1
 ```
