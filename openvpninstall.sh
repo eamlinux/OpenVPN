@@ -782,6 +782,7 @@ keepalive 10 120
 topology subnet
 duplicate-cn
 client-to-client
+auth-nocache
 server 10.8.0.0 255.255.255.0
 ifconfig-pool-persist ipp.txt" >>/etc/openvpn/server.conf
 
